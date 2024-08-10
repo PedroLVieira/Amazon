@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block content%}
+    <link rel="stylesheet" href="{% static 'css/detalhesStyle.css' %}">
+
+    <div class="produtos_container">
+
+        <div class="produto_container">
+
+            <div class="image_content">
+                {% if produtos.imagem %}      
+                   <img src="{{ produtos.imagem.url }}" alt="{{ produto.titulo }}">
+                {% endif %}
+            </div>
+
+
+            <div class="descricao_content">
+               <h2>{{ produtos.titulo }}</h2>
+                <p>{{ produtos.descricao }}</p>
+                <hr>
+                <h3>{{ produtos.preco }}</h3>
+            </div>
+            
+            <div class="compra">
+                <h2>{{ produtos.preco }}</h2>
+                <p>Frete: Entrega R$65: 26 de Junho - 9 de julho</p>
+                <form method="post" action="{% url 'adicionar_ao_carrinho' produtos.pk %}" >
+                    {% csrf_token %}
+                    <input type="submit" value="Adicionar ao carrinho" class="bnt_compra">
+                </form>
+                <button class="bnt_compra">Comprar agora</button>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

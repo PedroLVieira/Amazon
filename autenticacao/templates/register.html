@@ -1,0 +1,72 @@
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<a href="{% url 'home' %}"><img class="logo" src="{% static 'img/amazon_logo_dark.png' %}" alt="" width="100px"></a>
+<div class="signin-container">
+    <h1 class="signin-title">Fazer registro</h1>
+
+    <script>
+        function validatePassword() {
+            var password1 = document.getElementById("id_password1").value;
+            var password2 = document.getElementById("id_password2").value;
+        
+            // Adicione aqui as regras de validação de senha do Django
+            var passwordPattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+        
+            if (!passwordPattern.test(password1)) {
+                alert("Sua senha não pode ser muito parecida com o resto das suas informações pessoais.\nSua senha precisa conter pelo menos 8 caracteres.\nSua senha não pode ser uma senha comumente utilizada.\nSua senha não pode ser inteiramente numérica.\n Sua senha tem que ter pelo menos uma letra maiúscula.");
+                return false;
+            }
+        
+            if (password1 !== password2) {
+                alert("As senhas não correspondem.");
+                return false;
+            }
+        
+            return true;
+        }
+        function validateUsername() {
+            var username = document.getElementById("id_username").value;
+
+            // Adicione aqui as regras de validação de nome de usuário do Django
+            var usernamePattern = /^[a-zA-Z0-9_]{3,30}$/;
+
+            if (!usernamePattern.test(username)) {
+                alert("O nome de usuário não segue os padrões do Django.");
+                return false;
+            }
+
+    return true;
+}
+function validateForm() {
+    return validateUsername() && validatePassword();
+}
+        </script>
+
+    <form method="post" onsubmit="return validateForm();">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+        </div>
+        <div class="form-group">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+        </div>
+        <button type="submit">Registrar</button>
+    </form>
+    <p class="signin-condition">Ao continuar, você concorda com as <span>Condições de Uso</span> da Amazon. 
+    Por favor verifique a <span>Notificação de Privacidade, 
+    Notificação de Cookies</span> e a <span> Notificação de Anúncios Baseados em Interesse.</span></p>
+    <p class="signin-help">&#9656 <span>Precisa de ajuda?</span></p>
+    <hr>
+    <a href="{% url 'login' %}" class="redirect"><h4> &#9656 Ja tem uma conta? clique aqui para fazer login</h4></a>
+    <p class="singin-business">Compre na Amazon Business</p>
+
+</div>
+
+{% endblock %}
